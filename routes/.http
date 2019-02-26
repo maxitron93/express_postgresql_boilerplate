@@ -1,0 +1,32 @@
+ 
+GET http://localhost:3000/routeOne/getFirst
+content-type: application/json
+// Test first route
+
+###
+GET http://localhost:3000/routeOne/getSecond
+content-type: application/json
+// Test second route
+
+###
+POST http://localhost:3000/routeOne/sendJSON
+content-type: application/json
+// Test sending json
+
+{
+  "message": "This message was read and resent correctly! :D"
+}
+
+# ###
+# PUT http://localhost:3000/movies/genres/2
+# content-type: application/json
+# // Update a new genre
+
+# {
+#   "name": "Super Horror"
+# }
+
+# ###
+# DELETE http://localhost:3000/movies/genres/5
+# content-type: application/json
+# // Delete a genre
