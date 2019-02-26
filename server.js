@@ -3,9 +3,31 @@ const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
 const cors = require('cors')
+const { client } = require('./db_client')
 
-// DB Connection
-// TODO: 
+// Connect to the database
+client.connect()
+.then(() => {
+  console.log("Database connection successful")
+  
+  // Start listening on the port 
+  const PORT = process.env.PORT || 3000 // TODO: Update for this application
+  app.listen(PORT, () => {
+    console.log(`Listening on port ${PORT}...`)
+  })
+
+  // Query the database for the time
+  client.query('SELECT NOW() as now')
+    .then((result) => {
+      console.log(result.rows[0])
+    })
+    .catch((error) => {
+      console.log(error.stack)
+    })
+})
+.catch((error) => {
+  console.log(error)
+})
 
 // Middleware
 app.use(bodyParser.json())
@@ -13,11 +35,9 @@ app.use(cors())
 
 // Import Routers
 const routeOne = require('./routes/routeOne')
-// const routeTwo = require('./routes/routeTwo')
 
 // Set base routes
 app.use('/routeOne', routeOne)
-// app.use('/routeTwo', routeTwo)
 
 // TODO: Only if there are front-end files to send 
 // Set path for serving static files and images
@@ -34,8 +54,3 @@ app.use('/routeOne', routeOne)
 //   }
 // })
 
-// Get the port number from the environment variable PORT 
-const PORT = process.env.PORT || 3000
-app.listen(PORT, () => {
-  console.log(`Listening on port ${PORT}...`)
-})
