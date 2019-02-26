@@ -3,10 +3,11 @@ const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
 const cors = require('cors')
-const { client } = require('./db_client')
+const { pool } = require('./database/pool')
+const { createTables } = require('./database/tables')
 
 // Connect to the database
-client.connect()
+pool.connect()
 .then(() => {
   console.log("Database connection successful")
   
@@ -17,13 +18,16 @@ client.connect()
   })
 
   // Query the database for the time
-  client.query('SELECT NOW() as now')
+  pool.query('SELECT NOW() as now')
     .then((result) => {
       console.log(result.rows[0])
     })
     .catch((error) => {
       console.log(error.stack)
     })
+  
+  // Create tables
+  createTables()
 })
 .catch((error) => {
   console.log(error)
