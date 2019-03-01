@@ -1,0 +1,68 @@
+ 
+GET http://localhost:3000/routeOne/getFirst
+content-type: application/json
+// Test first route
+
+###
+GET http://localhost:3000/routeOne/getSecond
+content-type: application/json
+// Test second route
+
+###
+POST http://localhost:3000/routeOne/sendJSON
+content-type: application/json
+// Test sending json
+
+{
+  "message": "This message was read and resent correctly! :D"
+}
+
+
+
+
+
+
+
+
+###
+GET http://localhost:3000/crudRoute/getData/1001
+content-type: application/json
+// Test first route
+
+###
+POST http://localhost:3000/crudRoute/addEmployee
+content-type: application/json
+// Test first route
+
+{
+  "employee_id": 1001,
+  "first_name": "Maxi",
+  "last_name": "Merrillees",
+  "email": "mmer0003@test.com",
+  "hire_date": "2012-05-06",
+  "department": "Sports",
+  "gender": "M",
+  "salary": 120000,
+  "region_id": 3
+}
+
+###
+DELETE http://localhost:3000/crudRoute/deleteEmployee/1001
+content-type: application/json
+// Test first route
+
+###
+PUT http://localhost:3000/crudRoute/updateEmployee/1001
+content-type: application/json
+// Test first route
+
+{
+  "first_name": "Donkey",
+  "last_name": "Kong",
+  "email": "donkeyk@test.com",
+  "hire_date": "2012-05-06",
+  "department": "Tools",
+  "gender": "M",
+  "salary": 160000,
+  "region_id": 3
+}

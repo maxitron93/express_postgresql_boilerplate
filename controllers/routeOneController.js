@@ -1,20 +1,20 @@
-// const { TestModel } = require('../models/TestModel')
+const { asyncTryCatchRouteHandler } = require('../middleware/errorHandler.js')
 
 // GET /routeOne/getFirst
-const getFirst = (req, res) => {
+const getFirst = asyncTryCatchRouteHandler((req, res) => {
   res.send("This routeOne works! :D")
-}
+})
 
 // GET /routeOne/getFirst
-const getSecond = (req, res) => {
+const getSecond = asyncTryCatchRouteHandler((req, res) => {
   res.send("This routeTwo works! :D")
-}
+})
 
 // POST /routeOne/sendJSON
-const sendJSON = (req, res) => {
+const sendJSON = asyncTryCatchRouteHandler((req, res) => {
   const message = req.body.message
   res.send(message)
-}
+})
 
 // export all controller functions required by router
 module.exports = {

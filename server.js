@@ -3,12 +3,14 @@ const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
 const cors = require('cors')
-const { pool } = require('./database/pool')
-const { createTables } = require('./database/tables')
+const { errorHandler } = require('./middleware/errorHandler')
+const { pool } = require('./database/pool') 
+const { createTables } = require('./database/createTables')
+const { insertData } = require('./database/insertData')
 
 // Connect to the database
 pool.connect()
-.then(() => {
+.then(async () => {
   console.log("Database connection successful")
   
   // Start listening on the port 
@@ -18,16 +20,18 @@ pool.connect()
   })
 
   // Query the database for the time
-  pool.query('SELECT NOW() as now')
-    .then((result) => {
-      console.log(result.rows[0])
-    })
-    .catch((error) => {
-      console.log(error.stack)
-    })
+  try {
+    const result = await pool.query('SELECT NOW() as now')
+    console.log(result.rows[0])
+  } catch(error) {
+    console.log(error.stack)
+  }
   
   // Create tables
-  createTables()
+  // await createTables() // TODO: Already done
+
+  // Insert data
+  // await insertData() // TODO: Already done
 })
 .catch((error) => {
   console.log(error)
@@ -37,11 +41,16 @@ pool.connect()
 app.use(bodyParser.json())
 app.use(cors())
 
+// Error middleware must the last middleware function
+app.use(errorHandler)
+
 // Import Routers
 const routeOne = require('./routes/routeOne')
+const crudRoute = require('./routes/crudRoute')
 
 // Set base routes
 app.use('/routeOne', routeOne)
+app.use('/crudRoute', crudRoute)
 
 // TODO: Only if there are front-end files to send 
 // Set path for serving static files and images
@@ -57,4 +66,3 @@ app.use('/routeOne', routeOne)
 //     return res.send({ message: 'Something went wrong' })
 //   }
 // })
-
