@@ -3,6 +3,7 @@ const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
 const cors = require('cors')
+// const path = require('path') TODO: Only if sending static files
 const { errorHandler } = require('./middleware/errorHandler')
 const { pool } = require('./database/pool') 
 const { createTables } = require('./database/createTables')
